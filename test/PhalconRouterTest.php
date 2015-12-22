@@ -2,8 +2,9 @@
 
 namespace PhalconExpressiveTest;
 
-use Phalcon\Mvc\Router;
 use Phalcon\DI\FactoryDefault;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Url;
 use PhalconExpressive\PhalconRouter;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Diactoros\ServerRequest as Request;
@@ -85,6 +86,38 @@ class PhalconRouterTest extends TestCase
         $expected = $router->generateUri('testRoute', ['routeParam' => 'just-a-test']);
 
         $this->assertEquals($expected, '/just-a-test');
+    }
+
+    /**
+     * @group unit
+     */
+    public function testResolveDependenciesIfRouterProvided()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router = new PhalconRouter(new Router);
+        $router->addRoute(self::createTestRoute());
+        $match = $router->match($this->createRequestMock());
+        $url = $router->generateUri('testRoute');
+
+        $this->assertTrue($match->isSuccess());
+        $this->assertEquals('/test', $url);
+    }
+
+    /**
+     * @group unit
+     */
+    public function testResolveDependenciesIfUrlProvided()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $url = new Url;
+        $url->setBaseUri('/');
+        $router = new PhalconRouter(null, $url);
+        $router->addRoute(self::createTestRoute());
+        $match = $router->match($this->createRequestMock());
+        $url = $router->generateUri('testRoute');
+
+        $this->assertTrue($match->isSuccess());
+        $this->assertEquals('/test', $url);
     }
 
     /**

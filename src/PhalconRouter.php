@@ -3,7 +3,9 @@
 namespace PhalconExpressive;
 
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\RouterInterface as PhalconRouterInterface;
 use Phalcon\Mvc\Url;
+use Phalcon\Mvc\UrlInterface;
 use Phalcon\DI as PhalconDI;
 use Phalcon\Http\Request as PhalconRequest;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -34,23 +36,31 @@ final class PhalconRouter implements RouterInterface
      */
     public function __construct(Router $router = null, Url $url = null)
     {
-        $this->router = $router;
-        $this->url = $url;
         $di = new PhalconDI;
+        $di->setShared('request', new PhalconRequest);
 
-        if (!$router) {
-            $di->setShared('request', new PhalconRequest);
+        if ($router instanceof PhalconRouterInterface) {
+            $this->router = $router;
+        } elseif ($router === null) {
             $this->router = new Router;
             $this->router->clear();
-            $this->router->setDI($di);
-            $di->setShared('router', $this->router);
+        } else {
+            throw new Exception\RuntimeException('Router has to be an instance of RouterInterface');
         }
 
-        if (!$url) {
+        $this->router->setDI($di);
+        $di->setShared('router', $this->router);
+
+        if ($url instanceof UrlInterface) {
+            $this->url = $url;
+        } elseif ($url === null) {
             $this->url = new Url;
             $this->url->setBaseUri('/');
-            $this->url->setDI($di);
+        } else {
+            throw new Exception\RuntimeException('Url has to be an instance of UrlInterface');
         }
+
+        $this->url->setDI($di);
     }
 
     /**
@@ -60,6 +70,7 @@ final class PhalconRouter implements RouterInterface
     {
         // TODO allow named parameters through options.
         // TODO allow usage of :controller, :action, etc.
+        // TODO allow using prefixes
 
         if ($this->router->wasMatched()) {
             throw new Exception\RuntimeException('Route was already matched.');

@@ -1,8 +1,7 @@
 {
     "name": "aferalabs/phalcon-expressive",
     "type": "project",
-    "homepage": "https://github.com/aferalabs/phalcon-expressive",
-    "license": "MIT",
+    "homepage": "https://github.com/theDisco/phalcon-expressive",
     "authors": [
         {
             "name": "Wojtek Gancarczyk",

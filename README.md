@@ -27,9 +27,9 @@ use PhalconExpressive\PhalconRouter;
 $router = new PhalconRouter;
 ```
 
-`PhalconRouter` depends on `Phalcon\Mvc\Router` and `Phalcon\Mvc\Url`. If you want to provide alternative
-instances of these services, you might do so by passing them as constructor arguments. Otherwise they will
-be created using default values.
+`PhalconExpressive\PhalconRouter` depends on `Phalcon\Mvc\Router` and `Phalcon\Mvc\Url`. If you want to provide 
+alternative instances of these services, you might do so by passing them as constructor arguments. Otherwise 
+they will be created using default values.
 
 ```php
 use Phalcon\Mvc;
@@ -46,7 +46,7 @@ $router = new PhalconRouter(null, $url);
 $app = AppFactory::create(null, $router);
 ```
 
-The simplest way to integrate the Phalcon router is to define in invokable dependencies in the routes
+The simplest way to integrate the Phalcon router is to define it in invokable dependencies in the routes
 config:
 
 ```php

@@ -4,7 +4,18 @@ This project is supposed to provide a bridge between Zend Expressive and Phalcon
 
 # Installation
 
-This step is optional but suggested to kick start your new project.
+This step is optional but suggested to kick start your new project. Use Zend Expressive skeleton 
+by running the command below, to create a suggested project structure.
+
+```
+$ composer create-project zendframework/zend-expressive-skeleton <project-path>
+```
+
+When asked to select the router, type:
+
+```
+aferalabs/phalcon-expressive:dev-master
+```
 
 # Phalcon Router
 
@@ -33,6 +44,33 @@ $router->setEventsManager(new Phalcon\Events\Manager);
 
 $router = new PhalconRouter(null, $url);
 $app = AppFactory::create(null, $router);
+```
+
+The simplest way to integrate the Phalcon router is to define in invokable dependencies in the routes
+config:
+
+```php
+return [
+    'dependencies' => [
+        'invokables' => [
+            Zend\Expressive\Router\RouterInterface::class => PhalconExpressive\PhalconRouter::class,
+        ],
+    ],
+    'routes' => [
+        [
+            'name' => 'home',
+            'path' => '/',
+            'middleware' => App\Action\HomePageAction::class,
+            'allowed_methods' => ['GET'],
+        ],
+        [
+            'name' => 'api.ping',
+            'path' => '/api/ping',
+            'middleware' => App\Action\PingAction::class,
+            'allowed_methods' => ['GET'],
+        ],
+    ],
+];
 ```
 
 # TODO

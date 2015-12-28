@@ -17,7 +17,8 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8",
         "sneakybobito/phalcon-stubs": "2.0.2",
-        "squizlabs/php_codesniffer": "^2.3"
+        "squizlabs/php_codesniffer": "^2.3",
+        "techpivot/phalcon-ci-installer": "~1.0"
     },
     "autoload": {
         "psr-4": {

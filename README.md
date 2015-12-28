@@ -1,6 +1,8 @@
 # Phalcon 2 integration for Zend Expressive
 
 This project is supposed to provide a bridge between Zend Expressive and Phalcon Framework.
+It is partially tested but it might still include a lot of bugs, therefore do not consider it
+as production ready.
 
 # Installation
 
@@ -12,6 +14,12 @@ $ composer create-project zendframework/zend-expressive-skeleton <project-path>
 ```
 
 When asked to select the router, type:
+
+```
+aferalabs/phalcon-expressive:dev-master
+```
+
+When asked to select DI container, type:
 
 ```
 aferalabs/phalcon-expressive:dev-master
@@ -73,9 +81,41 @@ return [
 ];
 ```
 
+# Phalcon DI
+
+Phalcon Expressive includes an implementation of `Interop\Container\ContainerInterface` that is
+build on top of `Phalcon\DI`. In order to set up the container, create a new file `config/container.php`
+and add following content to it:
+
+```php
+<?php
+
+use PhalconExpressive\PhalconDI;
+
+// Load configuration
+$config = require 'config.php';
+
+$di = new PhalconDI;
+$di->set('config', $config);
+
+// Inject factories
+foreach ($config['dependencies']['factories'] as $name => $object) {
+    $di->set($name, function() use ($object, $di) {
+        return (new $object)->__invoke($di);
+    });
+}
+
+// Inject invokables
+foreach ($config['dependencies']['invokables'] as $name => $object) {
+    $di->set($name, $object);
+}
+
+return $di;
+```
+
+That's it, `Phalcon\DI` should be set up and ready to serve as DI container for Zend Expressive.
+
 # TODO
 
-* Finish documentation
 * Extend router functionality
-* Add DI integration
 * Add volt integration

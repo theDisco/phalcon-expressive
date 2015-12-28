@@ -6,7 +6,7 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\RouterInterface as PhalconRouterInterface;
 use Phalcon\Mvc\Url;
 use Phalcon\Mvc\UrlInterface;
-use Phalcon\DI as PhalconDI;
+use Phalcon\DI;
 use Phalcon\Http\Request as PhalconRequest;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Zend\Expressive\Router\Exception;
@@ -36,7 +36,7 @@ final class PhalconRouter implements RouterInterface
      */
     public function __construct(Router $router = null, Url $url = null)
     {
-        $di = new PhalconDI;
+        $di = new DI;
         $di->setShared('request', new PhalconRequest);
 
         if ($router instanceof PhalconRouterInterface) {

@@ -1,5 +1,7 @@
 # Phalcon 2 integration for Zend Expressive
 
+[![Build Status](https://travis-ci.org/theDisco/phalcon-expressive.svg)](https://travis-ci.org/theDisco/phalcon-expressive)
+
 This project is supposed to provide a bridge between Zend Expressive and Phalcon Framework.
 It is partially tested but it might still include a lot of bugs, therefore do not consider it
 as production ready.

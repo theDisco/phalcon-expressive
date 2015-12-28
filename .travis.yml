@@ -12,9 +12,9 @@ cache:
     - $HOME/pci
 
 before_install:
-  - curl -sS https://raw.githubusercontent.com/techpivot/phalcon-ci-installer/master/bin/install-phalcon.sh | sh
+  - curl -sS https://raw.githubusercontent.com/techpivot/phalcon-ci-installer/master/bin/install-phalcon.sh | bash
   - php -r 'echo \Phalcon\Version::get() . PHP_EOL;'
-  - composer install --prefer-source --no-interaction
+  - composer self-update && composer update --prefer-source --no-interaction
 
 script:
   - php vendor/bin/phpcs

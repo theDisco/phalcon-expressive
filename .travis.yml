@@ -12,8 +12,7 @@ cache:
     - $HOME/pci
 
 before_install:
-  - test -d $HOME/pci || wget https://github.com/techpivot/phalcon-ci-installer/archive/master.zip && unzip master.zip -d $HOME/pci
-  - $HOME/pci/phalcon-ci-installer/bin/install-phalcon.sh
+  - curl -sS https://raw.githubusercontent.com/techpivot/phalcon-ci-installer/master/bin/install-phalcon.sh | sh
   - php -r 'echo \Phalcon\Version::get() . PHP_EOL;'
   - composer install --prefer-source --no-interaction
 
